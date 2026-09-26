@@ -3,9 +3,9 @@
 	"id": "statistic-leaderboards",
 	"version": "${version}",
 	"name": "Statistic Leaderboards",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Leaderboards for Minecraft's statistics",
 	"authors": [
-		"Me!"
+		"Nick-FrozenTundraStudio"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",

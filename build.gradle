@@ -79,3 +79,14 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+loom {
+	runs {
+		client {
+			client()
+
+			systemProperties.put("devauth.enabled", "true")
+			systemProperties.put("devauth.account", "main")
+		}
+	}
+}
