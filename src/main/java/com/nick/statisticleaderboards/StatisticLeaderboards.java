@@ -2,6 +2,7 @@ package com.nick.statisticleaderboards;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.nick.statisticleaderboards.commands.LeaderboardSuggestionProvider;
 import com.nick.statisticleaderboards.commands.ModCommands;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -22,6 +23,7 @@ public class StatisticLeaderboards implements ModInitializer {
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(Commands.literal("top")
 					.then(Commands.argument("stat", StringArgumentType.string())
+							.suggests(new LeaderboardSuggestionProvider())
 							.executes(ModCommands::topCommand)));
 		});
 	}
