@@ -2,16 +2,11 @@ package com.nick.statisticleaderboards.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.nick.statisticleaderboards.StatisticLeaderboards;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
 
 public class ModCommands {
@@ -30,50 +25,38 @@ public class ModCommands {
         switch (stat) {
             case "walked":
                 try {
-                    Identifier walked = Stats.WALK_ONE_CM;
-                    StatType statType = Stats.CUSTOM;
-                    Stat walkedStat = statType.get(walked);
-
-                    Map<String, Double> playerMap = new HashMap<>();
-                    playerMap.put("Test1", 1000000.00);
-                    playerMap.put("Test2", 1.00);
-                    playerMap.put("Test3", 400000000.00);
+                    Stat walkedStat = Utilities.getStat(Stats.WALK_ONE_CM, Stats.CUSTOM);
+                    Map<String, Double> playerMapDouble = new HashMap<>();
+                    Utilities.addFakePlayers(playerMapDouble);
 
                     for(ServerPlayer player : players) {
-                        playerMap.put(player.getName().getString(), (double) (player.getStats().getValue(walkedStat) / 100));
+                        playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(walkedStat) / 100));
                     }
-                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMap.entrySet());
+                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
                     list.sort(Map.Entry.<String, Double> comparingByValue().reversed());
 
-                    context.getSource().sendSuccess(() -> Component.literal("| Top Distance Walked |"), false);
-                    list.forEach((player) -> context.getSource().sendSuccess(() -> Component.literal(player.getKey() + ": " + player.getValue() + "m"), false));
+                    String title = "| Top Distance Walked |";
+                    Utilities.displayLeaderboard(context, title, list);
                 } catch (Exception exception) {
-                    context.getSource().sendSuccess(() -> Component.literal("Something went wrong."), false);
-                    StatisticLeaderboards.LOGGER.info(exception.toString());
+                    Utilities.sendError(context, exception);
                 }
                 break;
             case "damagedealt":
                 try {
-                    Identifier damageDealt = Stats.DAMAGE_DEALT;
-                    StatType statType = Stats.CUSTOM;
-                    Stat damageDealtStat = statType.get(damageDealt);
-
-                    Map<String, Double> playerMap = new HashMap<>();
-                    playerMap.put("Test1", 1000000.00);
-                    playerMap.put("Test2", 1.00);
-                    playerMap.put("Test3", 400000000.00);
+                    Stat damageDealtStat = Utilities.getStat(Stats.DAMAGE_DEALT, Stats.CUSTOM);
+                    Map<String, Double> playerMapDouble = new HashMap<>();
+                    Utilities.addFakePlayers(playerMapDouble);
 
                     for(ServerPlayer player : players) {
-                        playerMap.put(player.getName().getString(), (double) (player.getStats().getValue(damageDealtStat) / 10));
+                        playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(damageDealtStat) / 10));
                     }
-                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMap.entrySet());
+                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
                     list.sort(Map.Entry.<String, Double> comparingByValue().reversed());
 
-                    context.getSource().sendSuccess(() -> Component.literal("| Top Damage Dealt |"), false);
-                    list.forEach((player) -> context.getSource().sendSuccess(() -> Component.literal(player.getKey() + ": " + player.getValue()), false));
+                    String title = "| Top Damage Dealt |";
+                    Utilities.displayLeaderboard(context, title, list);
                 } catch (Exception exception) {
-                    context.getSource().sendSuccess(() -> Component.literal("Something went wrong."), false);
-                    StatisticLeaderboards.LOGGER.info(exception.toString());
+                    Utilities.sendError(context, exception);
                 }
                 break;
             case "damagetaken":
@@ -88,9 +71,9 @@ public class ModCommands {
             case "deaths":
 
                 break;
-//            default:
-//                context.getSource().sendSuccess(() -> Component.literal("Please specify a stat."), false);
-//                break;
+            default:
+                context.getSource().sendSuccess(() -> Component.literal("Please specify a stat."), false);
+                break;
         }
         return 1;
     }
