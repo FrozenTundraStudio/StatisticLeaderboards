@@ -17,6 +17,11 @@ public class LeaderboardSuggestionProvider implements SuggestionProvider<Command
         List<String> suggestions = new ArrayList<>();
         suggestions.add("walked");
         suggestions.add("damagedealt");
+        suggestions.add("damagetaken");
+        suggestions.add("jumps");
+        suggestions.add("mobkills");
+        suggestions.add("deaths");
+
         for (String suggestion : suggestions) {
             builder.suggest(suggestion);
         }
