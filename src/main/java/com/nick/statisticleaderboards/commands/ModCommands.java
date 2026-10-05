@@ -2,9 +2,11 @@ package com.nick.statisticleaderboards.commands;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.*;
 import java.util.*;
@@ -20,8 +22,7 @@ public class ModCommands {
 		 */
         String statArg = StringArgumentType.getString(context, "stat");
         MinecraftServer server = context.getSource().getServer();
-        List<ServerPlayer> players = server.getPlayerList().getPlayers();
-
+        ServerLevel level = context.getSource().getLevel();
         switch (statArg) {
             case "walked":
                 try {
@@ -29,7 +30,7 @@ public class ModCommands {
                     Map<String, Double> playerMapDouble = new HashMap<>();
                     Utilities.addFakePlayersDouble(playerMapDouble);
 
-                    for(ServerPlayer player : players) {
+                    for(ServerPlayer player : PlayerLookup.level(level)) {
                         playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(walkedStat) / 100));
                     }
                     List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
@@ -47,7 +48,7 @@ public class ModCommands {
                     Map<String, Double> playerMapDouble = new HashMap<>();
                     Utilities.addFakePlayersDouble(playerMapDouble);
 
-                    for(ServerPlayer player : players) {
+                    for(ServerPlayer player : PlayerLookup.level(level)) {
                         playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(damageDealtStat) / 10));
                     }
                     List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
@@ -65,7 +66,7 @@ public class ModCommands {
                     Map<String, Double> playerMapDouble = new HashMap<>();
                     Utilities.addFakePlayersDouble(playerMapDouble);
 
-                    for(ServerPlayer player : players) {
+                    for(ServerPlayer player : PlayerLookup.level(level)) {
                         playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(damageTakenStat) / 10));
                     }
                     List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
