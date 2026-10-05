@@ -2,8 +2,10 @@ package com.nick.statisticleaderboards.commands;
 
 import com.mojang.brigadier.context.CommandContext;
 import com.nick.statisticleaderboards.StatisticLeaderboards;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,22 +28,39 @@ public class Utilities {
     }
 
     public static void displayLeaderboardDouble(CommandContext<CommandSourceStack> context, String title, List<Map.Entry<String, Double>> list) {
-        context.getSource().sendSuccess(() -> Component.literal(title), false);
-        list.forEach((player) -> context.getSource().sendSuccess(() -> Component.literal(player.getKey() + ": " + player.getValue()), false));
+        int position = 0;
+        MutableComponent leaderboardTitle = Component.literal(title)
+                        .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
+        context.getSource().sendSuccess(() -> leaderboardTitle, false);
+        for(Map.Entry<String, Double> player : list) {
+            position++;
+            MutableComponent leaderboardPlayer = Component.literal(position + ". " +  player.getKey() + ": " + player.getValue())
+                    .withStyle(ChatFormatting.GOLD);
+            context.getSource().sendSuccess(() -> leaderboardPlayer, false);
+        }
     }
 
     public static void displayLeaderboardInt(CommandContext<CommandSourceStack> context, String title, Stat stat) {
         MinecraftServer server = context.getSource().getServer();
         List<ServerPlayer> players = server.getPlayerList().getPlayers();
         Map<String, Integer> playerMapInt = new HashMap<>();
+        int position = 0;
         Utilities.addFakePlayersInt(playerMapInt);
         for(ServerPlayer player : players) {
             playerMapInt.put(player.getName().getString(), player.getStats().getValue(stat));
         }
         List<Map.Entry<String, Integer>> list = new ArrayList<>(playerMapInt.entrySet());
         list.sort(Map.Entry.<String, Integer> comparingByValue().reversed());
-        context.getSource().sendSuccess(() -> Component.literal(title), false);
-        list.forEach((player) -> context.getSource().sendSuccess(() -> Component.literal(player.getKey() + ": " + player.getValue()), false));
+
+        MutableComponent leaderboardTitle = Component.literal(title)
+                .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
+        context.getSource().sendSuccess(() -> leaderboardTitle, false);
+        for(Map.Entry<String, Integer> player : list) {
+            position++;
+            MutableComponent leaderboardPlayer = Component.literal(position + ". " +  player.getKey() + ": " + player.getValue())
+                    .withStyle(ChatFormatting.GOLD);
+            context.getSource().sendSuccess(() -> leaderboardPlayer, false);
+        }
     }
 
     public static void addFakePlayersDouble(Map playerMapDouble) {
