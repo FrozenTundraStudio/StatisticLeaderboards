@@ -28,11 +28,13 @@ public class Utilities {
     }
 
     public static void displayLeaderboardDouble(CommandContext<CommandSourceStack> context, String title, List<Map.Entry<String, Double>> list) {
+        int position = 0;
         MutableComponent leaderboardTitle = Component.literal(title)
                         .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
         context.getSource().sendSuccess(() -> leaderboardTitle, false);
         for(Map.Entry<String, Double> player : list) {
-            MutableComponent leaderboardPlayer = Component.literal(player.getKey() + ": " + player.getValue())
+            position++;
+            MutableComponent leaderboardPlayer = Component.literal(position + ". " +  player.getKey() + ": " + player.getValue())
                     .withStyle(ChatFormatting.GOLD);
             context.getSource().sendSuccess(() -> leaderboardPlayer, false);
         }
@@ -42,6 +44,7 @@ public class Utilities {
         MinecraftServer server = context.getSource().getServer();
         List<ServerPlayer> players = server.getPlayerList().getPlayers();
         Map<String, Integer> playerMapInt = new HashMap<>();
+        int position = 0;
         Utilities.addFakePlayersInt(playerMapInt);
         for(ServerPlayer player : players) {
             playerMapInt.put(player.getName().getString(), player.getStats().getValue(stat));
@@ -53,7 +56,8 @@ public class Utilities {
                 .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
         context.getSource().sendSuccess(() -> leaderboardTitle, false);
         for(Map.Entry<String, Integer> player : list) {
-            MutableComponent leaderboardPlayer = Component.literal(player.getKey() + ": " + player.getValue())
+            position++;
+            MutableComponent leaderboardPlayer = Component.literal(position + ". " +  player.getKey() + ": " + player.getValue())
                     .withStyle(ChatFormatting.GOLD);
             context.getSource().sendSuccess(() -> leaderboardPlayer, false);
         }
