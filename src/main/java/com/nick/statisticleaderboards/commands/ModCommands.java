@@ -21,59 +21,36 @@ public class ModCommands {
 			Number of Deaths
 		 */
         String statArg = StringArgumentType.getString(context, "stat");
-        MinecraftServer server = context.getSource().getServer();
-        ServerLevel level = context.getSource().getLevel();
         switch (statArg) {
             case "walked":
                 try {
-                    Stat walkedStat = Utilities.getStat(Stats.WALK_ONE_CM, Stats.CUSTOM);
-                    Map<String, Double> playerMapDouble = new HashMap<>();
-                    Utilities.addFakePlayersDouble(playerMapDouble);
-
-                    for(ServerPlayer player : PlayerLookup.level(level)) {
-                        playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(walkedStat) / 100));
-                    }
-                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
-                    list.sort(Map.Entry.<String, Double> comparingByValue().reversed());
-
+                    Stat stat = Utilities.getStat(Stats.WALK_ONE_CM, Stats.CUSTOM);
                     String title = "| Top Distance Walked |";
-                    Utilities.displayLeaderboardDouble(context, title, list);
+                    int divisor = 100;
+                    String unit = "m";
+                    Utilities.displayLeaderboardDouble(context, title, stat, divisor, unit);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "damagedealt":
                 try {
-                    Stat damageDealtStat = Utilities.getStat(Stats.DAMAGE_DEALT, Stats.CUSTOM);
-                    Map<String, Double> playerMapDouble = new HashMap<>();
-                    Utilities.addFakePlayersDouble(playerMapDouble);
-
-                    for(ServerPlayer player : PlayerLookup.level(level)) {
-                        playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(damageDealtStat) / 10));
-                    }
-                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
-                    list.sort(Map.Entry.<String, Double> comparingByValue().reversed());
-
+                    Stat stat = Utilities.getStat(Stats.DAMAGE_DEALT, Stats.CUSTOM);
                     String title = "| Top Damage Dealt |";
-                    Utilities.displayLeaderboardDouble(context, title, list);
+                    int divisor = 10;
+                    String unit = "";
+                    Utilities.displayLeaderboardDouble(context, title, stat, divisor, unit);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "damagetaken":
                 try {
-                    Stat damageTakenStat = Utilities.getStat(Stats.DAMAGE_TAKEN, Stats.CUSTOM);
-                    Map<String, Double> playerMapDouble = new HashMap<>();
-                    Utilities.addFakePlayersDouble(playerMapDouble);
-
-                    for(ServerPlayer player : PlayerLookup.level(level)) {
-                        playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(damageTakenStat) / 10));
-                    }
-                    List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
-                    list.sort(Map.Entry.<String, Double> comparingByValue().reversed());
-
+                    Stat stat = Utilities.getStat(Stats.DAMAGE_TAKEN, Stats.CUSTOM);
                     String title = "| Top Damage Taken |";
-                    Utilities.displayLeaderboardDouble(context, title, list);
+                    int divisor = 10;
+                    String unit = "";
+                    Utilities.displayLeaderboardDouble(context, title, stat, divisor, unit);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
