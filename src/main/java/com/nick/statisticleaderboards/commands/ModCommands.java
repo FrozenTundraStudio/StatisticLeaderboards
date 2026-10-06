@@ -13,22 +13,12 @@ import java.util.*;
 
 public class ModCommands {
     public static int topCommand(CommandContext<CommandSourceStack> context) {
-        /*  Distance Walked 0.00m
-			Damage Dealt 0.00
-			Damage Taken 0.00
-			Jumps
-			Mob Kills
-			Number of Deaths
-		 */
         String statArg = StringArgumentType.getString(context, "stat");
         switch (statArg) {
             case "walked":
                 try {
                     Stat stat = Utilities.getStat(Stats.WALK_ONE_CM, Stats.CUSTOM);
-                    String title = "| Top Distance Walked |";
-                    int divisor = 100;
-                    String unit = "m";
-                    Utilities.displayLeaderboardDouble(context, title, stat, divisor, unit);
+                    Utilities.displayLeaderboardDouble(context, "| Top Distance Walked |", stat, 100, "m");
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
@@ -36,10 +26,7 @@ public class ModCommands {
             case "damagedealt":
                 try {
                     Stat stat = Utilities.getStat(Stats.DAMAGE_DEALT, Stats.CUSTOM);
-                    String title = "| Top Damage Dealt |";
-                    int divisor = 10;
-                    String unit = "";
-                    Utilities.displayLeaderboardDouble(context, title, stat, divisor, unit);
+                    Utilities.displayLeaderboardDouble(context, "| Top Damage Dealt |", stat, 10, "");
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
@@ -47,10 +34,7 @@ public class ModCommands {
             case "damagetaken":
                 try {
                     Stat stat = Utilities.getStat(Stats.DAMAGE_TAKEN, Stats.CUSTOM);
-                    String title = "| Top Damage Taken |";
-                    int divisor = 10;
-                    String unit = "";
-                    Utilities.displayLeaderboardDouble(context, title, stat, divisor, unit);
+                    Utilities.displayLeaderboardDouble(context, "| Top Damage Taken |", stat, 10, "");
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
@@ -58,8 +42,7 @@ public class ModCommands {
             case "jumps":
                 try {
                     Stat stat = Utilities.getStat(Stats.JUMP, Stats.CUSTOM);
-                    String title = "| Top Jumps |";
-                    Utilities.displayLeaderboardInt(context, title, stat);
+                    Utilities.displayLeaderboardInt(context, "| Top Jumps |", stat);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
@@ -67,8 +50,7 @@ public class ModCommands {
             case "mobkills":
                 try {
                     Stat stat = Utilities.getStat(Stats.MOB_KILLS, Stats.CUSTOM);
-                    String title = "| Top Mob Kills |";
-                    Utilities.displayLeaderboardInt(context, title, stat);
+                    Utilities.displayLeaderboardInt(context, "| Top Mob Kills |", stat);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
@@ -76,8 +58,7 @@ public class ModCommands {
             case "deaths":
                 try {
                     Stat stat = Utilities.getStat(Stats.DEATHS, Stats.CUSTOM);
-                    String title = "| Top Deaths |";
-                    Utilities.displayLeaderboardInt(context, title, stat);
+                    Utilities.displayLeaderboardInt(context, "| Top Deaths |", stat);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
