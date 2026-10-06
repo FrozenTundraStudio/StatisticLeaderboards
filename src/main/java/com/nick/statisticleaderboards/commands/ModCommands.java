@@ -17,48 +17,42 @@ public class ModCommands {
         switch (statArg) {
             case "walked":
                 try {
-                    Stat stat = Utilities.getStat(Stats.WALK_ONE_CM, Stats.CUSTOM);
-                    Utilities.displayLeaderboardDouble(context, "| Top Distance Walked |", stat, 100, "m");
+                    Utilities.displayLeaderboardDouble(context, "| Top Distance Walked |", Stats.WALK_ONE_CM, Stats.CUSTOM, 100, "m");
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "damagedealt":
                 try {
-                    Stat stat = Utilities.getStat(Stats.DAMAGE_DEALT, Stats.CUSTOM);
-                    Utilities.displayLeaderboardDouble(context, "| Top Damage Dealt |", stat, 10, "");
+                    Utilities.displayLeaderboardDouble(context, "| Top Damage Dealt |", Stats.DAMAGE_DEALT, Stats.CUSTOM, 10, "");
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "damagetaken":
                 try {
-                    Stat stat = Utilities.getStat(Stats.DAMAGE_TAKEN, Stats.CUSTOM);
-                    Utilities.displayLeaderboardDouble(context, "| Top Damage Taken |", stat, 10, "");
+                    Utilities.displayLeaderboardDouble(context, "| Top Damage Taken |", Stats.DAMAGE_TAKEN, Stats.CUSTOM, 10, "");
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "jumps":
                 try {
-                    Stat stat = Utilities.getStat(Stats.JUMP, Stats.CUSTOM);
-                    Utilities.displayLeaderboardInt(context, "| Top Jumps |", stat);
+                    Utilities.displayLeaderboardInt(context, "| Top Jumps |", Stats.JUMP, Stats.CUSTOM);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "mobkills":
                 try {
-                    Stat stat = Utilities.getStat(Stats.MOB_KILLS, Stats.CUSTOM);
-                    Utilities.displayLeaderboardInt(context, "| Top Mob Kills |", stat);
+                    Utilities.displayLeaderboardInt(context, "| Top Mob Kills |", Stats.MOB_KILLS, Stats.CUSTOM);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }
                 break;
             case "deaths":
                 try {
-                    Stat stat = Utilities.getStat(Stats.DEATHS, Stats.CUSTOM);
-                    Utilities.displayLeaderboardInt(context, "| Top Deaths |", stat);
+                    Utilities.displayLeaderboardInt(context, "| Top Deaths |", Stats.DEATHS, Stats.CUSTOM);
                 } catch (Exception exception) {
                     Utilities.sendError(context, exception);
                 }

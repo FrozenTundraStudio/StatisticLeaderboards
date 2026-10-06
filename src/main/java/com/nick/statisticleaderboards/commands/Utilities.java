@@ -21,32 +21,27 @@ import java.util.List;
 import java.util.Map;
 
 public class Utilities {
-    public static Stat getStat(Identifier identifier, StatType statType) {
-        Stat stat = statType.get(identifier);
-        return stat;
-    }
     public static void sendError(CommandContext<CommandSourceStack> context, Exception exception) {
         context.getSource().sendSuccess(() -> Component.literal("Something went wrong."), false);
         StatisticLeaderboards.LOGGER.info(exception.toString());
     }
 
-    public static void displayLeaderboardDouble(CommandContext<CommandSourceStack> context, String title, Stat stat, int divisor, String unit) {
+    public static void displayLeaderboardDouble(CommandContext<CommandSourceStack> context, String title, Identifier identifier, StatType statType, int divisor, String unit) {
         ServerLevel level = context.getSource().getLevel();
         Map<String, Double> playerMapDouble = new HashMap<>();
         playerMapDouble.put("Test1", 1000000.11);
         playerMapDouble.put("Test2", 1.35);
         playerMapDouble.put("Test3", 40000.45);
-        int position = 0;
-        DecimalFormat df = new DecimalFormat("########0.00");
+        Stat stat = statType.get(identifier);
         for(ServerPlayer player : PlayerLookup.level(level)) {
             playerMapDouble.put(player.getName().getString(), (double) (player.getStats().getValue(stat) / divisor));
         }
         List<Map.Entry<String, Double>> list = new ArrayList<>(playerMapDouble.entrySet());
         list.sort(Map.Entry.<String, Double> comparingByValue().reversed());
-
         MutableComponent leaderboardTitle = Component.literal(title)
                         .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
         context.getSource().sendSuccess(() -> leaderboardTitle, false);
+        int position = 0;
         for(Map.Entry<String, Double> player : list) {
             position++;
             MutableComponent leaderboardPlayer = Component.literal(position + ". " +  player.getKey() + ": " + player.getValue() + unit)
@@ -55,13 +50,13 @@ public class Utilities {
         }
     }
 
-    public static void displayLeaderboardInt(CommandContext<CommandSourceStack> context, String title, Stat stat) {
+    public static void displayLeaderboardInt(CommandContext<CommandSourceStack> context, String title, Identifier identifier, StatType statType) {
         ServerLevel level = context.getSource().getLevel();
         Map<String, Integer> playerMapInt = new HashMap<>();
         playerMapInt.put("Test1", 1000000);
         playerMapInt.put("Test2", 1);
         playerMapInt.put("Test3", 40000);
-        int position = 0;
+        Stat stat = statType.get(identifier);
         for(ServerPlayer player : PlayerLookup.level(level)) {
             playerMapInt.put(player.getName().getString(), player.getStats().getValue(stat));
         }
@@ -70,6 +65,7 @@ public class Utilities {
         MutableComponent leaderboardTitle = Component.literal(title)
                 .withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD);
         context.getSource().sendSuccess(() -> leaderboardTitle, false);
+        int position = 0;
         for(Map.Entry<String, Integer> player : list) {
             position++;
             MutableComponent leaderboardPlayer = Component.literal(position + ". " +  player.getKey() + ": " + player.getValue())
